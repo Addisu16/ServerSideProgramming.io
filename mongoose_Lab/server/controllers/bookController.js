@@ -16,13 +16,13 @@ exports.save = async(req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-     const updatedBook=await Book.updateOne({_id:req.params.id},req.body,{new:true});
+     const updatedBook=await Book.findById({_id:req.params.id},req.body);
      res.json(updatedBook);
       
 }
 
 exports.deleteById = async (req, res, next) => {
-    const deletedBook = await Book.deleteOne({_id:req.params.id},{new:true});
+    const deletedBook = await Book.deleteOne({_id:req.params.id});
     res.json(deletedBook);
 }
 

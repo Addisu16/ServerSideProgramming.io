@@ -16,7 +16,7 @@ async function fetchBooks() {
     <th>Title</th>
     <th>ISBN</th>
     <th>Author</th>
-    <th>Published Date</th>
+    <th>Published_Date</th>
     <th>Actions</th>
   </tr>
   `;
@@ -29,7 +29,7 @@ async function fetchBooks() {
               <td id="title-${book._id}">${book.title}</td>
               <td id="isbn-${book._id}">${book.isbn}</td>
               <td id="author-${book._id}">${book.author}</td>
-              <td id="publishedDate-${book._id}">${book.pushlisedDate}</td>
+              <td id="publishedDate-${book._id}">${book.publishedDate}</td>
               <td>
                   <button onclick="editById('${book._id}');">Edit</button>
                   <button onclick="deleteById('${book._id}');">Delete</button>
@@ -50,7 +50,7 @@ async function saveBook(evt) {
           title: document.getElementById('title').value,
           isbn: document.getElementById('isbn').value,
           author: document.getElementById('author').value,
-          pushlisedDate: document.getElementById('publishedDate').value
+          publishedDate: document.getElementById('publishedDate').value
       }),
       headers: {
           'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ async function saveBook(evt) {
       <td id="title-${book._id}">${book.title}</td>
       <td id="isbn-${book._id}">${book.isbn}</td>
       <td id="author-${book._id}">${book.author}</td>
-      <td id="publishedDate-${book._id}">${book.pushlisedDate}</td>
+      <td id="publisheddDate-${book._id}">${book.publisheddDate}</td>
       <td>
           <button onclick="editById('${book._id}');">Edit</button>
           <button onclick="deleteById('${book._id}');">Delete</button>
