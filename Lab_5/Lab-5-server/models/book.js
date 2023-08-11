@@ -1,53 +1,44 @@
-const books = [
-    {id:1,title:"The subtle art",ISBN:"978-0987654321",publishedDate:"01/01/2021",author:"Mark Manson"},
-    {id:2,title: 'Sample Book 1',ISBN: '978-1234567890',publishedDate:'2023-08-06',author:'John Doe'},
-    {id:3,title:'Sample Book 2',ISBN:'978-0987654321',publishedDate: '2023-08-06', author:'Jane Smith'},
-    {id:4,title: 'Sample Book 3',ISBN:'978-9876543210',publishedDate:'2023-08-06',author:' Johnson'},
-    {id:5,title: 'Sample Book 3',ISBN:'978-9876543210',publishedDate:'2023-08-06',author:'Michael Johnson'}
-];
+const { ObjectId } = require('mongodb');
+const {getDb} = require('../utils/database');
 
-module.exports=class Book {
-    constructor(id, title, ISBN, publishedDate, author) {
-        this.id = id;
+module.exports = class Book {
+
+    constructor(title, isbn, author, pushlisedDate){
         this.title = title;
-        this.ISBN = ISBN;
-        this.publishedDate = publishedDate;
+        this.isbn = isbn;
         this.author = author;
-    }
-    static getAllBooks() {
-        return books;
+        this.pushlisedDate = pushlisedDate;
     }
 
-    static submit() {
-        if (books.find((book) => book.id == id)) {
-            throw new Error('Duplicate id Found!');
-        } else {
-            books.push(this);
-        }
-
-    }
-    static update() {
-
-        let bookIndex = books.findIndex(book => book.id == this.id);
-        if (bookIndex > -1) {
-            bookIndex.id = this.id;
-            bookIndex.title = this.title;
-            bookIndex.ISBN = this.ISBN;
-            bookIndex.publishedDate = this.publishedDate;
-            bookIndex.author = this.author;
-        } else {
-            books.push(this);
-        }
+     static getAll(){
+        const db = getDb();
+        const collection = db.collection('books');
+        return collection.find().toArray();
     }
 
-    static delete(id) {
-        const indexToDelete = books.findIndex(book => book.id == id);
-        if (indexToDelete > -1) {
-            books.splice(index, 1);
-        } else {
-            throw new Error('Books Not Found !');
-        }
-
+    static getById(id){
+        const db = getDb();
+        const collection = db.collection('books');
+        return collection.findOne({_id: new ObjectId(id)});
     }
+
+    save(){
+        const db = getDb();
+        const collection = db.collection('books');
+        return collection.insertOne(this);
+    }
+
+    update(id){
+        const db = getDb();
+        const collection = db.collection('books');
+        return collection.updateOne({_id: new ObjectId(id)}, {$set: {title: this.title, isbn: this.isbn, author: this.author, pushlisedDate: this.pushlisedDate}});
+    }
+
+    static deleteById(id) {
+        const db = getDb();
+        const collection = db.collection('books');
+        return collection.deleteOne({_id: new ObjectId(id)});
+    }
+
 
 }
