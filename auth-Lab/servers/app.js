@@ -3,7 +3,7 @@ const cors = require('cors');
 const mongoose=require('mongoose');
 const bookRouter = require('./routes/bookRouter');
 const authRouter = require('./routes/auth');
-const User = require('./models/user');
+const User = require('./models/users');
 
 User.init(); 
 
