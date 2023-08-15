@@ -6,8 +6,6 @@ async function signup() {
     try {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        
-        // if (password.length >= 8) {
             const response = await fetch('http://localhost:3000/users/signup', {
                 method: 'POST',
                 body: JSON.stringify({ username, password }),

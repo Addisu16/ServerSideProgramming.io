@@ -7,13 +7,10 @@ const userRouter=require('./routes/userRoutes');
 const authRouter=require('./routes/authRoutes');
 const tweetRoutes=require('./routes/tweetsRoutes');
 
-
 // Create Express app
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-
 
 //middleware
 app.use('/users',userRouter);
