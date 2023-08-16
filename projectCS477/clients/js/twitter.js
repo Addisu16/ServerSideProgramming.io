@@ -1,6 +1,7 @@
 window.onload = function () {
     document.getElementById('post').onclick = postTweet;
     populateTweetsContainer();
+    window.location;
     document.getElementById('logout').onclick = logout;
     document.getElementById('profile').onclick=profile;
     const username = sessionStorage.getItem('username');
@@ -10,6 +11,7 @@ window.onload = function () {
 }
 
 async function postTweet(event) {
+    console.log('something')
     event.preventDefault();
     const content = document.getElementById('tweetContent').value;
     if (content.trim() === '') {
@@ -22,6 +24,7 @@ async function postTweet(event) {
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ content }),
         });
@@ -41,17 +44,16 @@ async function postTweet(event) {
 
 
 
-// client.js
 
-// Function to create a new div element with content
 function createDivWithContent(content) {
     const div = document.createElement('div');
     div.textContent = content;
     return div;
 }
 
-// Function to populate the container with user-specific tweet contents
+
 async function populateTweetsContainer() {
+    window.location;
     const token = sessionStorage.getItem('accessToken');
     try {
         const response = await fetch('http://localhost:3000/tweets/tweets', {
@@ -64,12 +66,12 @@ async function populateTweetsContainer() {
             throw new Error('Failed to fetch tweet content.');
         }
 
-        const responseData = await response.json(); // Parse the JSON response
+        const responseData = await response.json(); 
 
         const tweetsContainer = document.getElementById('tweets-container');
-        tweetsContainer.innerHTML = ''; // Clear previous content
+        tweetsContainer.innerHTML = ''; 
 
-        // Iterate through the userTweetContents object and create divs
+        
         for (const username in responseData.userTweetContents) {
             const userDiv = document.createElement('div');
             userDiv.textContent = `Tweets by ${username}:`;
@@ -100,3 +102,11 @@ function logout() {
 function profile(){
     location.href='profile.html';
 }
+
+
+document.getElementById('post').addEventListener('click',function(event){
+    event.preventDefault();
+    setTimeout(() => {
+        location.reload();
+    },0)
+})

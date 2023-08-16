@@ -12,6 +12,7 @@ routes.get('/tweets',tweetRoutes.getTweets);
 routes.post('/follow/:userId', tweetRoutes.followUser);
 routes.get('/follower',tweetRoutes.getFollowers)
 routes.delete('/unfollow/:_id', tweetRoutes.unfollow)
+routes.get('/search', tweetRoutes.searchFollower);
 
 
 

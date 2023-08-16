@@ -2,6 +2,7 @@
 
 window.onload = function () {
     document.getElementById('login').onclick = login;
+    
 }
 
 async function login(event) {
@@ -34,3 +35,4 @@ async function login(event) {
         document.getElementById('error').innerText = result.error;
     }
 }
+

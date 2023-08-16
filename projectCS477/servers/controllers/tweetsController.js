@@ -142,3 +142,25 @@ exports.unfollow = async (req, res) => {
     }
 };
 
+exports.searchFollower = async (req, res) => {
+    try {
+        const searchTerm = req.query.username;
+        const currentUser = req.userId; // Assuming you have the current user's ID
+
+        // Find the current user and populate their followers
+        const user = await User.findById(currentUser).populate('followers');
+
+        // Search among the followers' usernames
+        const matchingFollowers = user.followers.filter(follower => {
+            return follower.username.includes(searchTerm);
+        });
+
+        // Extract matching usernames from followers
+        const matchingUsernames = matchingFollowers.map(follower => follower.username);
+
+        res.json(matchingUsernames);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
