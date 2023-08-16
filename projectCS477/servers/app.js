@@ -18,7 +18,7 @@ app.use(authRouter);
 app.use('/tweets',tweetRoutes);
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/socialmedia').then(()=>{
+mongoose.connect('mongodb://127.0.0.1:27017/socialmedia',{ useNewUrlParser: true, useUnifiedTopology: true }).then(()=>{
     app.listen(3000,()=>{
         console.log(`Server running at 3000`)
     })

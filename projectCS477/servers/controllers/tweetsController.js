@@ -115,15 +115,27 @@ exports.followUser = async (req, res) => {
 
 // Assuming you're using Express
 
-exports.unfollow=async (req, res) => {
+exports.unfollow = async (req, res) => {
     try {
         const userId = req.userId;
-        const unfollowUsername = req.body.username; // Username to unfollow
+        const unfollowUsername = req.body.username;
 
-        await User.findByIdAndUpdate(userId, { $pull: { followers: unfollowUsername } });
+        // Find the user document of the currently logged-in user
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        // Remove the unfollowUsername from the followers array
+        user.followers = user.followers.filter(followerId => followerId.toString() !== unfollowUsername);
+
+        // Save the updated user document
+        await user.save();
 
         res.sendStatus(200);
     } catch (error) {
+        console.error('Error unfollowing:', error);
         res.status(500).send(error.message);
     }
 };
