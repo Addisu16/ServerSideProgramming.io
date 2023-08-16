@@ -2,6 +2,7 @@ window.onload = function () {
     document.getElementById('post').onclick = postTweet;
     populateTweetsContainer();
     document.getElementById('logout').onclick = logout;
+    document.getElementById('profile').onclick=profile;
     const username = sessionStorage.getItem('username');
 
     document.getElementById('welcome').innerText = 'Welcome' + " " + username;
@@ -72,7 +73,6 @@ async function populateTweetsContainer() {
         for (const username in responseData.userTweetContents) {
             const userDiv = document.createElement('div');
             userDiv.textContent = `Tweets by ${username}:`;
-
             const tweetContents = responseData.userTweetContents[username];
             tweetContents.forEach(content => {
                 const tweetDiv = createDivWithContent(content);
@@ -90,4 +90,13 @@ async function populateTweetsContainer() {
 
 function logout() {
     location.href = 'login.html';
+
+}
+
+
+
+
+
+function profile(){
+    location.href='profile.html';
 }

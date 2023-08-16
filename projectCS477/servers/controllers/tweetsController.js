@@ -18,31 +18,6 @@ exports.postTweets = async (req, res) => {
 };
 
 
-// exports.getTweets = async (req, res) => {
-//     try {
-//         const userId = req.userId;
-
-//         const user = await User.findById(userId).populate('followers');
-//         const userFollowers = user.followers.map(follower => follower._id);
-//         userFollowers.push(userId);
-
-//         const usersWithTweets = await User.find({ _id: { $in: userFollowers } })
-//             .populate('tweets', 'content')
-//             .select('username tweets');
-
-//         const userTweetContents = {};
-
-//         usersWithTweets.forEach(user => {
-//             const tweetContents = user.tweets.map(tweet => tweet.content);
-//             userTweetContents[user.username] = tweetContents;
-//         });
-
-//         res.send({ userTweetContents });
-//     } catch (error) {
-//         res.status(500).send(error.message);
-//     }
-// }
-
 exports.getTweets = async (req, res) => {
     try {
         const userId = req.userId;
@@ -64,6 +39,27 @@ exports.getTweets = async (req, res) => {
         }
 
         res.send({ userTweetContents });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+exports.getFollowers = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const user = await User.findById(userId).populate('followers');
+        const followers = user.followers.map(follower => follower._id);
+        followers.push(userId); // Include the user's ID in the list of followers
+
+        const followersUsernames = [];
+
+        for (const followerId of followers) {
+            const followerUser = await User.findById(followerId);
+            const followerUsername = followerUser.username;
+
+            followersUsernames.push(followerUsername);
+        }
+        
+        res.send({ followers: followersUsernames });
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -110,6 +106,23 @@ exports.followUser = async (req, res) => {
         await loggedInUser.save();
 
         res.status(200).send(`You are now following ${userToFollow.username}.`);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+
+
+// Assuming you're using Express
+
+exports.unfollow=async (req, res) => {
+    try {
+        const userId = req.userId;
+        const unfollowUsername = req.body.username; // Username to unfollow
+
+        await User.findByIdAndUpdate(userId, { $pull: { followers: unfollowUsername } });
+
+        res.sendStatus(200);
     } catch (error) {
         res.status(500).send(error.message);
     }
