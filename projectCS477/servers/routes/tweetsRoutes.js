@@ -9,6 +9,7 @@ routes.get('/me',tweetRoutes.me);
 
 routes.post('/tweets', tweetRoutes.postTweets)
 routes.get('/tweets',tweetRoutes.getTweets);
+routes.post('/follow/:userId', tweetRoutes.followUser);
 
 
 
