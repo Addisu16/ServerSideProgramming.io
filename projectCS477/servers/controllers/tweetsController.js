@@ -1,14 +1,19 @@
 
-const { ObjectId } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 const Tweet = require('../models/tweets')
-const User = require('../models/user')
+const User = require('../models/user');
+const mongoose=require('mongoose');
+
 // posting a tweet
 exports.postTweets = async (req, res) => {
     try {
+        console.log('-----------------&&&&');
+        console.log(req.body);
         const { content } = req.body;
         const userID = req.userId;
         const user = await getUser(userID);
         const tweet = ({ content, date: new Date() });
+        console.log(tweet);
         user.tweets.push(tweet);
         await user.save();
         res.status(201).send('Tweet posted successfully.');
@@ -32,7 +37,7 @@ exports.getTweets = async (req, res) => {
             const followerUser = await User.findById(followerId);
             const followerUsername = followerUser.username;
             
-            // Filter out tweets only for the user and their followers
+        
             const filteredTweets = followerUser.tweets.map(tweet => tweet.content);
 
             userTweetContents[followerUsername] = filteredTweets;
@@ -81,9 +86,7 @@ getUser = async (userID) => {
     return await User.findById(new ObjectId(userID));
 }
 
-// In your tweetsController.js
 
-// ... (other imports and functions)
 
 exports.followUser = async (req, res) => {
     try {
@@ -113,29 +116,29 @@ exports.followUser = async (req, res) => {
 
 
 
-// Assuming you're using Express
+
+
+
+
 
 exports.unfollow = async (req, res) => {
     try {
         const userId = req.userId;
-        const unfollowUsername = req.body.username;
-
-        // Find the user document of the currently logged-in user
+        const unfollowUserId = req.params.userId;
         const user = await User.findById(userId);
-
+        
         if (!user) {
             return res.status(404).send('User not found');
         }
+        
+        // Use the $pull operator to remove the specific follower from the array
+        await user.updateOne({ $pull: { followers: unfollowUserId } });
 
-        // Remove the unfollowUsername from the followers array
-        user.followers = user.followers.filter(followerId => followerId.toString() !== unfollowUsername);
-
-        // Save the updated user document
-        await user.save();
-
+        
         res.sendStatus(200);
     } catch (error) {
         console.error('Error unfollowing:', error);
         res.status(500).send(error.message);
     }
 };
+

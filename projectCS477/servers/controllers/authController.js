@@ -23,7 +23,7 @@ exports.verifyToken = (req, res, next) => {
 exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
-        // Validate input here...
+    
         
         const user = await User.findOne({ username, password });
         if (!user) {
