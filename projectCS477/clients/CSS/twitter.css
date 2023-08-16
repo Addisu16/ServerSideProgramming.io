@@ -1,18 +1,21 @@
+
 body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f3f5;
-    color: #333;
+    background-color: #f0f0f0;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.header {
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,56 +23,60 @@ body {
     border-bottom: 1px solid #ccc;
 }
 
-.header img {
-    height: 40px;
-    width: auto;
+#logout {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-}
-
-nav a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-nav a:hover {
-    color: #0056b3;
-}
-
-.main {
-    padding: 40px 0;
+#logout:hover {
+    background-color: #c82333;
 }
 
 .welcome-banner {
     text-align: center;
-    padding: 40px 0;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
 }
 
-#welcome-title {
-    font-size: 2.5rem;
+#welcome {
+    font-size: 24px;
     margin-bottom: 10px;
+    color: #333;
 }
 
 #welcome-message {
-    font-size: 1.2rem;
-    color: #777;
+    font-size: 16px;
+    color: #666;
+}
+
+#tweetContent {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+#post {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#post:hover {
+    background-color: #0056b3;
 }
 
 footer {
     text-align: center;
-    padding: 20px 0;
+    padding: 10px 0;
     border-top: 1px solid #ccc;
-    font-size: 0.9rem;
-    color: #777;
 }

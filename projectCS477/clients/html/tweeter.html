@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +7,10 @@
     <link rel="stylesheet" href="../CSS/twitter.css">
     <script src="../js/twitter.js" defer></script>
 </head>
-
 <body>
-    <div>
-        <button id="profile">Myprofile</button>
-    </div>
     <div class="container">
-        <header class="header">
-           
-        
-          
-                <div><button id="logout">Logout</button></div>
-           
+        <header>
+            <div><button id="logout">Logout</button></div>
         </header>
 
         <main>
@@ -28,12 +19,10 @@
                 <p id="welcome-message">Stay connected with the world. Join the conversation.</p>
             </div>
             <div>
-                <textarea name="textarea" id="tweetContent" cols="30" rows="10" placeholder="what is on your mind?"></textarea>
-                
-                <button type="submit" id="post">POST</button>
+                <textarea id="tweetContent" placeholder="What's on your mind?" rows="4"></textarea>
+                <button id="post">POST</button>
             </div>
             <div id="tweets-container"></div>
-            
         </main>
 
         <footer>
@@ -41,5 +30,4 @@
         </footer>
     </div>
 </body>
-
 </html>
