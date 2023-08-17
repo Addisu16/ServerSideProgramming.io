@@ -9,7 +9,7 @@ exports.postTweets = async (req, res) => {
     try {
         console.log('-----------------&&&&');
         console.log(req.body);
-        const { content } = req.body;
+        const {content} = req.body;
         const userID = req.userId;
         const user = await getUser(userID);
         const tweet = ({ content, date: new Date() });

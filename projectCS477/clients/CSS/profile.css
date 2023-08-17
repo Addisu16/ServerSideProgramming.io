@@ -1,84 +1,12 @@
-/* body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-#profile-container {
-    background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    border-radius: 10px;
-    text-align: center;
-    width: 400px;
-}
-
-#username {
-    font-size: 24px;
-    font-weight: bold;
-    color: #1da1f2;
-    margin-bottom: 20px;
-}
-
-#search-input {
-    padding : 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 40%;
-    font-size: 16px;
-    outline: none;
-}
-
-#search-button {
-    padding: 10px 20px;
-    background-color: #1da1f2;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-#search-button:hover {
-    background-color: #0c85d0;
-}
-
-#search-results {
-    margin-top: 20px;
-    text-align: left;
-}
-
-.tweet {
-    background-color: #fff;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-.tweet .author {
-    font-weight: bold;
-    color: #1da1f2;
-    margin-bottom: 5px;
-}
-
-.tweet .content {
-    color: #333;
-} */
-
 
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 100px;
+    padding: 20px;
+    gap:40px;
     background-color: #f2f2f2;
+    color: blue;
+
 }
 
 header {
@@ -102,14 +30,17 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin: 60px;
 }
 
 .username {
+    padding:20px;
     font-size: 24px;
     font-weight: bold;
     color: #1da1f2;
-    margin-right: 10px;
+    margin: 10px;
+    color: red;
+    
 }
 
 .follow-button, .unfollow-button {
