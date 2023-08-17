@@ -4,17 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitter Profile</title>
-    <link rel="stylesheet" href="../CSS/login.css">
+    <link rel="stylesheet" href="../CSS/profile.css">
     <script src="../js/profile.js"></script>
 </head>
+
 <body>
-    <div class="username" data-username="username" id="username"></div>
-    <div id="usernameContainer"></div>
+    <header>
+        <h1 id="profilepage">Profile's Page</h1>
+    </header>
 
+    <div class="profile-container">
+        <div id="usernameContainer">
+            <h2 class="username" data-username="username" id="username"></h2>
 
-    <input type="text" id="search-input" placeholder="Search followers by username">
-    <button id="search-button">Search</button>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search followers by username">
+        <button id="search-button">Search</button>
+    </div>
+
     <div id="search-results"></div>
-
 </body>
+
 </html>

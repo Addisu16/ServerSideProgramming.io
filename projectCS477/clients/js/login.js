@@ -1,8 +1,7 @@
 
-
 window.onload = function () {
     document.getElementById('login').onclick = login;
-    
+
 }
 
 async function login(event) {
@@ -19,17 +18,17 @@ async function login(event) {
     });
     const result = await response.json();
     if (response.status === 200) {
-       
-        const username=await (await fetch('http://localhost:3000/tweets/me',{
-            
+
+        const username = await (await fetch('http://localhost:3000/tweets/me', {
+
             headers: {
-                'Authorization':'Bearer '+ result.token
+                'Authorization': 'Bearer ' + result.token
             }
 
         })).json();
         console.log(JSON.stringify(username))
         sessionStorage.setItem('accessToken', result.token);
-        sessionStorage.setItem('username',username.username);
+        sessionStorage.setItem('username', username.username);
         location.href = 'tweeter.html';
     } else {
         document.getElementById('error').innerText = result.error;

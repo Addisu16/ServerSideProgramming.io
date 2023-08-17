@@ -2,7 +2,7 @@
 const ObjectId = require('mongodb').ObjectId;
 const Tweet = require('../models/tweets')
 const User = require('../models/user');
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 
 // posting a tweet
 exports.postTweets = async (req, res) => {
@@ -36,8 +36,8 @@ exports.getTweets = async (req, res) => {
         for (const followerId of followers) {
             const followerUser = await User.findById(followerId);
             const followerUsername = followerUser.username;
-            
-        
+
+
             const filteredTweets = followerUser.tweets.map(tweet => tweet.content);
 
             userTweetContents[followerUsername] = filteredTweets;
@@ -55,7 +55,7 @@ exports.getFollowers = async (req, res) => {
         const user = await User.findById(userId);
         //const followers=user.followers.map(u=>{return {username:u.username,id:u._id}});
         const followersId = user.followers.map(follower => follower._id);
-    
+
         // followers.push(userId); // Include the user's ID in the list of followers
 
         const followers = [];
@@ -64,16 +64,14 @@ exports.getFollowers = async (req, res) => {
             const followerUser = await User.findById(followerId);
             // const followerUsername = followerUser.username;
 
-            followers.push({username:followerUser.username,id:followerUser._id});
+            followers.push({ username: followerUser.username, id: followerUser._id });
         }
-        
+
         res.send({ followers: followers });
     } catch (error) {
         res.status(500).send(error.message);
     }
 };
-
-
 
 exports.me = async (req, res) => {
     const userID = await req.userId;
@@ -81,15 +79,11 @@ exports.me = async (req, res) => {
         const users = await getUser(userID);
         res.status(200).json({ username: users.username });
     }
-
-
 }
 
 getUser = async (userID) => {
     return await User.findById(new ObjectId(userID));
 }
-
-
 
 exports.followUser = async (req, res) => {
     try {
@@ -118,33 +112,24 @@ exports.followUser = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
-
 exports.unfollow = async (req, res) => {
     try {
         const userId = req.userId;
         console.log(userId);
         const unfollowUserId = req.params.userId;
-        console.log(unfollowUserId,'......');
+        console.log(unfollowUserId, '......');
         const user = await User.findById(userId);
         console.log(user);
-        
+
         if (!user) {
             return res.status(404).send('User not found');
         }
-        
+
         // Use the $pull operator to remove the specific follower from the array
         console.log(await user.updateOne({ $pull: { followers: unfollowUserId } }));
-        
 
-        
+
+
         res.sendStatus(200);
     } catch (error) {
         console.error('Error unfollowing:', error);
@@ -175,38 +160,35 @@ exports.searchFollower = async (req, res) => {
     }
 };
 
-
 exports.searchAll = async (req, res, next) => {
-        try {
-            const searchTerm = req.query.username;
-            const currentUser = req.userId;
-            // Find the current user and populate their followers
-            const user = await User.findById(currentUser).populate('followers');
-            // Search among the followers' usernames
-            const matchingFollowers = user.followers.filter(follower => {
-                return follower.username.includes(searchTerm);
-            });
-            const matchingUsernames = matchingFollowers.map(follower => ({
-                username: follower.username,
-                id:user._id,
-                isFollowed: true
-            }));
-            // Find all users whose username matches the search term
-    
-            const nonFollowers = await User.find({
-                _id: { $nin: user.followers },
-                username: { $regex: new RegExp(searchTerm, 'i') }
-            });
-            const matchingNonFollowers = nonFollowers.map(user => ({
-                username: user.username,
-                id:user._id,
-                isFollowed: false
-            }));
-            const allMatchingUsers = [...matchingUsernames, ...matchingNonFollowers];
-            res.json(allMatchingUsers);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-    
-    };
+    try {
+        const searchTerm = req.query.username;
+        const currentUser = req.userId;
+        const user = await User.findById(currentUser).populate('followers');
+        // Search among the followers' usernames
+        const matchingFollowers = user.followers.filter(follower => {
+            return follower.username.includes(searchTerm);
+        });
+        const matchingUsernames = matchingFollowers.map(follower => ({
+            username: follower.username,
+            id: user._id,
+            isFollowed: true
+        }));
+        // Find all users whose username matches the search term
+        const nonFollowers = await User.find({
+            _id: { $nin: user.followers },
+            username: { $regex: new RegExp(searchTerm, 'i') }
+        });
+        const matchingNonFollowers = nonFollowers.map(user => ({
+            username: user.username,
+            id: user._id,
+            isFollowed: false
+        }));
+        const allMatchingUsers = [...matchingUsernames, ...matchingNonFollowers];
+        res.json(allMatchingUsers);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+};

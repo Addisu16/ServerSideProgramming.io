@@ -3,13 +3,12 @@ window.onload = function () {
     populateTweetsContainer();
     window.location;
     document.getElementById('logout').onclick = logout;
-    document.getElementById('profile').onclick=profile;
+    document.getElementById('profile').onclick = profile;
     const username = sessionStorage.getItem('username');
 
     document.getElementById('welcome').innerText = 'Welcome' + " " + username;
 
 }
-
 async function postTweet(event) {
     console.log('something')
     event.preventDefault();
@@ -42,16 +41,11 @@ async function postTweet(event) {
     }
 }
 
-
-
-
 function createDivWithContent(content) {
     const div = document.createElement('div');
     div.textContent = content;
     return div;
 }
-
-
 async function populateTweetsContainer() {
     window.location;
     const token = sessionStorage.getItem('accessToken');
@@ -65,13 +59,9 @@ async function populateTweetsContainer() {
         if (!response.ok) {
             throw new Error('Failed to fetch tweet content.');
         }
-
-        const responseData = await response.json(); 
-
+        const responseData = await response.json();
         const tweetsContainer = document.getElementById('tweets-container');
-        tweetsContainer.innerHTML = ''; 
-
-        
+        tweetsContainer.innerHTML = '';
         for (const username in responseData.userTweetContents) {
             const userDiv = document.createElement('div');
             userDiv.textContent = `Tweets by ${username}:`;
@@ -88,25 +78,16 @@ async function populateTweetsContainer() {
         console.error('Error populating tweets:', error);
     }
 }
-
-
 function logout() {
     location.href = 'login.html';
-
+}
+function profile() {
+    location.href = 'profile.html';
 }
 
-
-
-
-
-function profile(){
-    location.href='profile.html';
-}
-
-
-document.getElementById('post').addEventListener('click',function(event){
+document.getElementById('post').addEventListener('click', function (event) {
     event.preventDefault();
     setTimeout(() => {
         location.reload();
-    },0)
+    }, 0)
 })

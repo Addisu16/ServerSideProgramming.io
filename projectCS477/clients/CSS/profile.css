@@ -1,62 +1,187 @@
-/* Reset some default styles */
-body, div, p, ul, li {
+/* body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-/* Apply a background color to the body */
-body {
     background-color: #f2f2f2;
-    font-family: Arial, sans-serif;
-}
-
-/* Center the content on the page */
-.container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Style the profile username section */
+#profile-container {
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    width: 400px;
+}
+
 #username {
-    margin-top: 20px;
     font-size: 24px;
     font-weight: bold;
-    color: #333;
-}
-
-/* Style the search section */
-.search-section {
-    margin-top: 20px;
-    text-align: center;
+    color: #1da1f2;
+    margin-bottom: 20px;
 }
 
 #search-input {
-    padding: 8px;
-    width: 300px;
+    padding : 10px;
+    margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+    width: 40%;
     font-size: 16px;
+    outline: none;
 }
 
 #search-button {
-    padding: 8px 16px;
-    margin-left: 10px;
-    background-color: #3498db;
-    color: white;
+    padding: 10px 20px;
+    background-color: #1da1f2;
     border: none;
     border-radius: 5px;
+    color: white;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
 #search-button:hover {
-    background-color: #2980b9;
+    background-color: #0c85d0;
 }
 
 #search-results {
-    margin-top: 10px;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.tweet {
+    background-color: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.tweet .author {
+    font-weight: bold;
+    color: #1da1f2;
+    margin-bottom: 5px;
+}
+
+.tweet .content {
+    color: #333;
+} */
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+header {
+    background-color: #1da1f2;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.profile-container {
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    width: 400px;
+    margin: 20px auto;
+}
+
+.usernameContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.username {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1da1f2;
+    margin-right: 10px;
+}
+
+.follow-button, .unfollow-button {
+    padding: 5px 15px;
+    background-color: #1da1f2;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.unfollow-button {
+    background-color: #ff4500;
+}
+
+.follow-button:hover, .unfollow-button:hover {
+    background-color: #0c85d0;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#search-input {
+    padding: 10px;
+    margin: 10px 10px 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 40%;
+    font-size: 16px;
+    outline: none;
+}
+
+#search-button {
+    padding: 10px 20px;
+    background-color: #1da1f2;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#search-button:hover {
+    background-color: #0c85d0;
+}
+
+#search-results {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.tweet {
+    background-color: #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.tweet .author {
+    font-weight: bold;
+    color: #1da1f2;
+    margin-bottom: 5px;
+}
+
+.tweet .content {
+    color: #333;
 }
