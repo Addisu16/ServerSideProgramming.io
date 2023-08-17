@@ -51,20 +51,23 @@ exports.getTweets = async (req, res) => {
 exports.getFollowers = async (req, res) => {
     try {
         const userId = req.userId;
-        const user = await User.findById(userId).populate('followers');
-        const followers = user.followers.map(follower => follower._id);
-        followers.push(userId); // Include the user's ID in the list of followers
+        // const user = await User.findById(userId).populate('followers');
+        const user = await User.findById(userId);
+        //const followers=user.followers.map(u=>{return {username:u.username,id:u._id}});
+        const followersId = user.followers.map(follower => follower._id);
+    
+        // followers.push(userId); // Include the user's ID in the list of followers
 
-        const followersUsernames = [];
+        const followers = [];
 
-        for (const followerId of followers) {
+        for (const followerId of followersId) {
             const followerUser = await User.findById(followerId);
-            const followerUsername = followerUser.username;
+            // const followerUsername = followerUser.username;
 
-            followersUsernames.push(followerUsername);
+            followers.push({username:followerUser.username,id:followerUser._id});
         }
         
-        res.send({ followers: followersUsernames });
+        res.send({ followers: followers });
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -121,18 +124,25 @@ exports.followUser = async (req, res) => {
 
 
 
+
+
+
 exports.unfollow = async (req, res) => {
     try {
         const userId = req.userId;
+        console.log(userId);
         const unfollowUserId = req.params.userId;
+        console.log(unfollowUserId,'......');
         const user = await User.findById(userId);
+        console.log(user);
         
         if (!user) {
             return res.status(404).send('User not found');
         }
         
         // Use the $pull operator to remove the specific follower from the array
-        await user.updateOne({ $pull: { followers: unfollowUserId } });
+        console.log(await user.updateOne({ $pull: { followers: unfollowUserId } }));
+        
 
         
         res.sendStatus(200);
@@ -164,3 +174,39 @@ exports.searchFollower = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+exports.searchAll = async (req, res, next) => {
+        try {
+            const searchTerm = req.query.username;
+            const currentUser = req.userId;
+            // Find the current user and populate their followers
+            const user = await User.findById(currentUser).populate('followers');
+            // Search among the followers' usernames
+            const matchingFollowers = user.followers.filter(follower => {
+                return follower.username.includes(searchTerm);
+            });
+            const matchingUsernames = matchingFollowers.map(follower => ({
+                username: follower.username,
+                id:user._id,
+                isFollowed: true
+            }));
+            // Find all users whose username matches the search term
+    
+            const nonFollowers = await User.find({
+                _id: { $nin: user.followers },
+                username: { $regex: new RegExp(searchTerm, 'i') }
+            });
+            const matchingNonFollowers = nonFollowers.map(user => ({
+                username: user.username,
+                id:user._id,
+                isFollowed: false
+            }));
+            const allMatchingUsers = [...matchingUsernames, ...matchingNonFollowers];
+            res.json(allMatchingUsers);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
+    
+    };

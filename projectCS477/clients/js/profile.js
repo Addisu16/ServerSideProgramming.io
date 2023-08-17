@@ -1,6 +1,9 @@
+
+
 window.onload = function () {
     fetchProfile();
-    searchUser();
+    search();
+   
 
 }
 
@@ -20,18 +23,18 @@ async function fetchProfile() {
 
         const responseData = await response.json();
 
-        const usernameContainer = document.getElementById('username');
+        const usernameContainer = document.getElementById('usernameContainer'); // Update the ID
 
-        for (const username of responseData.followers) {
+        for (const {username,id} of responseData.followers) {
             const usernameDiv = document.createElement('div');
             usernameDiv.textContent = username;
-            usernameDiv.setAttribute('data-username', username); // Set data attribute
+            usernameDiv.setAttribute('data-userid', id);
 
             const unfollowButton = document.createElement('button');
             unfollowButton.innerHTML = 'Unfollow';
-            unfollowButton.addEventListener('click', () => unfollow(username)); // Pass the username
+            unfollowButton.addEventListener('click', () => unfollow(id));
 
-            usernameDiv.appendChild(unfollowButton); // Append the button inside the div
+            usernameDiv.appendChild(unfollowButton);
             usernameContainer.appendChild(usernameDiv);
         }
     } catch (error) {
@@ -39,72 +42,109 @@ async function fetchProfile() {
     }
 }
 
-// Unfollow function
 async function unfollow(username) {
-    // Your existing code
+    const token = sessionStorage.getItem('accessToken');
+    try {
+        const unfollowResponse = await fetch(`http://localhost:3000/tweets/unfollow/${username}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        });
 
-    const usernameDivs = document.querySelectorAll('.username');
-    usernameDivs.forEach(usernameDiv => {
-        if (usernameDiv.getAttribute('data-username') === username) { // Compare data-username
-            usernameDiv.remove();
+        if (!unfollowResponse.ok) {
+            const errorText = await unfollowResponse.text();
+            console.error(`Failed to unfollow. Server response: ${errorText}`);
+        } else {
+            const usernameDivs = document.querySelectorAll('#username');
+            usernameDivs.forEach(usernameDiv => {
+                if (usernameDiv.getAttribute('data-username') === username) {
+                    usernameDiv.remove();
+                }
+            });
         }
-    });
-
-    // Your existing code
+    } catch (error) {
+        console.error('Error unfollowing:', error);
+    }
 }
 
-
-
-function searchUser() {
-    const searchButton = document.getElementById('search-button');
+const search=async () => {
     const searchInput = document.getElementById('search-input');
     const searchResultsContainer = document.getElementById('search-results');
     const token = sessionStorage.getItem('accessToken');
+    const searchTerm = searchInput.value.trim();
+        try {
+            const headers = {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            };
 
-    searchButton.addEventListener('click', async () => {
-        const searchTerm = searchInput.value.trim();
-
-        if (searchTerm) {
-            try {
-                const headers = {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                };
-
-                const response = await fetch(`http://localhost:3000/tweets/search?username=${encodeURIComponent(searchTerm)}`, {
-                    method: 'GET',
-                    headers: headers
-                });
-
-                if (response.ok) {
-                    const matchingUsernames = await response.json();
-                    displaySearchResults(matchingUsernames);
-                } else {
-                    console.error('Request failed:', response.status, response.statusText);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-    });
-
-    function displaySearchResults(usernames) {
-        searchResultsContainer.innerHTML = '';
-
-        if (usernames.length === 0) {
-            searchResultsContainer.innerHTML = '<p>No matching followers found.</p>';
-        } else {
-            const resultList = document.createElement('div');
-            const button=document.createElement('button');
-            button.innerHTML='unfollow';
-
-            usernames.forEach(username => {
-                const listItem = document.createElement('li');
-                listItem.textContent = username ;
-                resultList.appendChild(button);
-                resultList.appendChild(listItem);
+            const response = await fetch(`http://localhost:3000/tweets/searchAll?username=${encodeURIComponent(searchTerm)}`, {
+                method: 'GET',
+                headers: headers,
+             
             });
-            searchResultsContainer.appendChild(resultList);
+
+            if (response.ok) {
+            
+                const matchingUserProfile = await response.json();
+                console.log(matchingUserProfile)
+                searchResultsContainer.innerHTML='';
+                matchingUserProfile.forEach((o)=>{
+                    const createdUser=createUserElement(o);
+                    searchResultsContainer.append(createdUser);
+                })
+                
+            } else {
+                console.error('Request failed:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error);
         }
     }
+
+function searchUser() {
+    const searchButton = document.getElementById('search-button');
+    searchButton.addEventListener('click', search)
 }
+
+
+async function follow(userId){
+const token = sessionStorage.getItem('accessToken');
+        try {
+            const headers = {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            };
+            const response = await fetch(`http://localhost:3000/tweets/follow/${userId}`, {
+                method: 'POST',
+                headers: headers,
+            });
+        } catch (error) {
+            console.error('Error:', error);
+        }
+}
+function createUserElement(user) {
+    const userDiv = document.createElement('div');
+    userDiv.className = 'user';
+  
+    const usernameElement = document.createElement('span');
+    usernameElement.textContent = user.username;
+    userDiv.appendChild(usernameElement);
+  
+    const followButton = document.createElement('button');
+    followButton.textContent = user.isFollowed ? 'Unfollow' : 'Follow';
+    followButton.addEventListener('click', async () => {
+      // Toggle the follow status here and update the button text
+      if(!user.isFollowed){
+         await follow(user.id);
+      }
+      user.isFollowed = !user.isFollowed;
+      followButton.textContent = user.isFollowed ? 'Unfollow' : 'Follow';
+    });
+    userDiv.appendChild(followButton);
+  
+    return userDiv;
+  }
+
