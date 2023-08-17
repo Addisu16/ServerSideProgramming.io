@@ -7,6 +7,7 @@ window.onload = function () {
     const username = sessionStorage.getItem('username');
 
     document.getElementById('welcome').innerText = 'Welcome' + " " + username;
+    document.getElementById('welcome').style.color='blue';
 
 }
 async function postTweet(event) {

@@ -4,6 +4,7 @@ window.onload = function () {
     const username = sessionStorage.getItem('username');
 
     document.getElementById('profilepage').innerText = 'Welcome' + " " + username;
+    document.getElementById('profilepage').style.color='yellow';
 
 
 }
