@@ -26,12 +26,16 @@ exports.postTweets = async (req, res) => {
 exports.getTweets = async (req, res) => {
     try {
         const userId = req.userId;
+          ////  const page = req.query.page ? parseInt(req.query.page) : 1;
+        //const perPage = 10;
         const user = await User.findById(userId).populate('followers');
 
         const followers = user.followers.map(follower => follower._id);
         followers.push(userId); // Include the user's ID in the list of followers
 
         const userTweetContents = {};
+         //const startIndex = (page - 1) * perPage;
+        //const endIndex = page * perPage;
 
         for (const followerId of followers) {
             const followerUser = await User.findById(followerId);
@@ -48,30 +52,51 @@ exports.getTweets = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
+// exports.getFollowers = async (req, res) => {
+//     try {
+//         const userId = req.userId;
+//         // const user = await User.findById(userId).populate('followers');
+//         const user = await User.findById(userId);
+//         //const followers=user.followers.map(u=>{return {username:u.username,id:u._id}});
+//         const followersId = user.followers.map(follower => follower._id);
+
+//         // followers.push(userId); // Include the user's ID in the list of followers
+
+//         const followers = [];
+
+//         for (const followerId of followersId) {
+//             const followerUser = await User.findById(followerId);
+//             // const followerUsername = followerUser.username;
+
+//             followers.push({ username: followerUser.username, id: followerUser._id });
+//         }
+
+//         res.send({ followers: followers });
+//     } catch (error) {
+//         res.status(500).send(error.message);
+//     }
+// };
+
+
+
 exports.getFollowers = async (req, res) => {
     try {
         const userId = req.userId;
-        // const user = await User.findById(userId).populate('followers');
-        const user = await User.findById(userId);
-        //const followers=user.followers.map(u=>{return {username:u.username,id:u._id}});
-        const followersId = user.followers.map(follower => follower._id);
 
-        // followers.push(userId); // Include the user's ID in the list of followers
+        // Fetch the user along with their followers
+        const user = await User.findById(userId).populate('followers');
 
-        const followers = [];
-
-        for (const followerId of followersId) {
-            const followerUser = await User.findById(followerId);
-            // const followerUsername = followerUser.username;
-
-            followers.push({ username: followerUser.username, id: followerUser._id });
-        }
+        const followers = user.followers.map(follower => ({
+            username: follower.username,
+            id: follower._id
+        }));
 
         res.send({ followers: followers });
     } catch (error) {
         res.status(500).send(error.message);
     }
 };
+
 
 exports.me = async (req, res) => {
     const userID = await req.userId;
