@@ -23,28 +23,56 @@ exports.postTweets = async (req, res) => {
 };
 
 
+// exports.getTweets = async (req, res) => {
+//     try {
+//         const userId = req.userId;
+//           //  const page = req.query.page ? parseInt(req.query.page) : 1;
+//         //const perPage = 10;
+//         const user = await User.findById(userId).populate('followers');
+
+//         const followers = user.followers.map(follower => follower._id);
+//         followers.push(userId); // Include the user's ID in the list of followers
+
+//         const userTweetContents = {};
+//          //const startIndex = (page - 1) * perPage;
+//         //const endIndex = page * perPage;
+
+//         for (const followerId of followers) {
+//             const followerUser = await User.findById(followerId);
+//             const followerUsername = followerUser.username;
+            
+
+//             const filteredTweets = followerUser.tweets.map(tweet => tweet.content);
+
+//             userTweetContents[followerUsername] = filteredTweets.sort((a,b)=>b.date-a.date);
+//         }
+
+//         res.send({ userTweetContents });
+//     } catch (error) {
+//         res.status(500).send(error.message);
+//     }
+// };
 exports.getTweets = async (req, res) => {
     try {
         const userId = req.userId;
-          ////  const page = req.query.page ? parseInt(req.query.page) : 1;
-        //const perPage = 10;
         const user = await User.findById(userId).populate('followers');
 
         const followers = user.followers.map(follower => follower._id);
-        followers.push(userId); // Include the user's ID in the list of followers
+        followers.push(userId);
 
         const userTweetContents = {};
-         //const startIndex = (page - 1) * perPage;
-        //const endIndex = page * perPage;
 
         for (const followerId of followers) {
             const followerUser = await User.findById(followerId);
             const followerUsername = followerUser.username;
 
+            // Sort tweets by date in descending order
+            const sortedTweets = followerUser.tweets.sort((a, b) => b.date - a.date);
 
-            const filteredTweets = followerUser.tweets.map(tweet => tweet.content);
+            // Get the top 10 tweets
+            const topTweets = sortedTweets.slice(0, 10).map(tweet => tweet.content);
 
-            userTweetContents[followerUsername] = filteredTweets;
+            userTweetContents[followerUsername] = topTweets;
         }
 
         res.send({ userTweetContents });
@@ -52,6 +80,7 @@ exports.getTweets = async (req, res) => {
         res.status(500).send(error.message);
     }
 };
+
 // exports.getFollowers = async (req, res) => {
 //     try {
 //         const userId = req.userId;
