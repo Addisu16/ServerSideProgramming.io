@@ -19,7 +19,7 @@ app.post('/submit', (req, res) => {
     const blogPost = { title, body };
 
     // Save the user's inputs into a file (e.g., blog-posts.txt)
-    fs.appendFile('blog-posts.txt', JSON.stringify(blogPost) + '\n', 'utf8', (err) => {
+    fs.appendFile('blog.txt', JSON.stringify(blogPost) + '\n', 'utf8', (err) => {
         if (err) {
             console.error('Error saving data:', err);
             res.status(500).send('Error saving data.');

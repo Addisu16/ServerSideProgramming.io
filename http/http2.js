@@ -4,7 +4,7 @@ http.createServer((req,res)=>{
         firstName:'Addis',
         lastName:'Alem'
     };
-    res.statusCode(200);
+  
     
     res.end(JSON.stringify(obj));
 

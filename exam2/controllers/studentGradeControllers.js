@@ -4,7 +4,11 @@ const Student = require('../models/grade');
 
 exports.fetchAll = async (req, res) => {
     const stu = await Student.find({});
+    if(stu){
     res.status(200).json(stu)
+}else{
+    res.status(404).json({you:'no student Found'});
+}
 }
 
 
@@ -49,7 +53,7 @@ exports.filterByGender = async (req, res) => {
 
         res.status(200).json(student);
     } else {
-        res.status(404).json({ message: 'Students not found' });
+        res.status(404).json({ y: 'Students not found' });
     }
 }
 

@@ -14,7 +14,6 @@ async function signup() {
 
             }
         });
-
         if (response.status === 400) {
             const result = await response.json();
             document.getElementById('error').innerText = result.message;

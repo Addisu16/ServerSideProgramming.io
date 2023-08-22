@@ -1,0 +1,14 @@
+{
+  "name": "myotherproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "welcome.js",
+  "scripts": {
+    "start": "node welcome.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  }
+}

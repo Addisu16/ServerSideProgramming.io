@@ -7,4 +7,4 @@ http.createServer((req,res)=>{
 
 fs.createReadStream('index.html').pipe(res);
 
-}).listen(5000,()=>console.log('server is on 5000'));
+}).listen(6000,()=>console.log('server is on 6000'));

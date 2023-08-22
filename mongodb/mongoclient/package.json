@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "mongodb": "^5.7.0"
+  },
+  "name": "mongoclient",
+  "version": "1.0.0",
+  "main": "findAll.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

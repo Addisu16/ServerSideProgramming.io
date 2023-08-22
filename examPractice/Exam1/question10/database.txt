@@ -1,1 +1,0 @@
-john=pwd123,bella=admin235,edward=edward989,Addisu=1234,Addisu 1234

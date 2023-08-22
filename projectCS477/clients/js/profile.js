@@ -2,9 +2,8 @@ window.onload = function () {
     fetchProfile();
     searchUser();
     const username = sessionStorage.getItem('username');
-
     document.getElementById('profilepage').innerText = 'Welcome' + " " + username;
-    document.getElementById('profilepage').style.color='yellow';
+    document.getElementById('profilepage').style.color = 'yellow';
 
 
 }
@@ -63,9 +62,6 @@ async function unfollow(username) {
             usernameDivs.forEach(usernameDiv => {
                 if (usernameDiv.getAttribute('data-username') === username) {
                     usernameDiv.remove();
-
-
-
                 }
                 location.reload();
             });
@@ -155,4 +151,3 @@ function createUserElement(user) {
     userDiv.appendChild(followButton);
     return userDiv;
 }
-
